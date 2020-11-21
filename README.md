@@ -1,3 +1,3 @@
 # humbaba
 
-humbaba is an attempt to create a modern and enjoyable browser-based reading experience.
+Nobody knows what humbaba is yet.
