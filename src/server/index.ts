@@ -1,5 +1,9 @@
 import express, {Request, Response} from 'express'
-// const express = require('express')
+import { resolve } from 'path'
+import { migrate } from 'pigmig'
+
+await migrate(resolve("src/db/migrations"))
+
 const app = express()
 const port = 3000
 

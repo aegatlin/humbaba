@@ -1,6 +1,7 @@
 {
   "name": "humbaba",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "dev:client": "parcel watch src/client/index.html",
     "dev:server": "nodemon --watch src/server --ext .ts --exec 'tsc && node .server/index.js'",
@@ -8,7 +9,8 @@
   },
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pigmig": "^0.0.9"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",
