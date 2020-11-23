@@ -1,13 +1,10 @@
 import React from 'react'
-import { CreateList } from './create_list'
-import { Lists } from './lists'
+import { ListWrapper } from './list'
 
 const App = () => {
   return ( 
     <div>
-      <h1>Hello, from humbaba</h1>
-      <CreateList />
-      <Lists />
+      <ListWrapper />
     </div>
   )
 } 
