@@ -1,7 +1,7 @@
 import express, {Request, Response} from 'express'
 import { resolve } from 'path'
 import { migrate } from 'pigmig'
-import { db } from '../db/index.js'
+import { db } from './db.js'
 import { eor } from 'eor'
 
 await migrate(resolve("src/db/migrations"))
