@@ -6,6 +6,6 @@
     "moduleResolution": "node",
     "noImplicitAny": false,
     "outDir": ".server",
-    "target": "es2020"
+    "target": "es2020",
   }
 }
