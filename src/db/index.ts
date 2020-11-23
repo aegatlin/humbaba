@@ -18,5 +18,9 @@ export const db = {
   getAllLists: async () => {
     const { rows } = await pool.query<ListRow>('SELECT * FROM list;')
     return rows
+  },
+  writeNewList: async (name) => {
+    const res = await pool.query<ListRow>('INSERT INTO list (name) VALUES ($1)', [name])
+    return res.rows
   }
 }

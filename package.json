@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev:client": "parcel src/client/index.html",
-    "dev:server": "nodemon --watch src/server --ext .ts --exec 'tsc && node .server/server/index.js'",
+    "dev:server": "nodemon --watch src/server --watch src/db --ext .ts --exec 'tsc && node .server/server/index.js'",
     "dev": "npm run dev:client & npm run dev:server",
     "build:client": "parcel build src/client/index.html",
     "build:server": "tsc"
@@ -14,7 +14,8 @@
     "express": "^4.17.1",
     "pigmig": "^0.0.9",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "swr": "^0.3.9"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",
