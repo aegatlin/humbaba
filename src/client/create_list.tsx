@@ -10,7 +10,7 @@ export const CreateList = () => {
 
   const submitHandler = () => {
     const writeNewList = async () => {
-      await fetch('api/list/new', {
+      await fetch('/api/list/new', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

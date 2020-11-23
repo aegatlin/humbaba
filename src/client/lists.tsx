@@ -1,5 +1,5 @@
 import React from 'react'
-import useSWR from 'swr'
+import useSWR, { mutate } from 'swr'
 import { Error } from './error'
 import { Loading } from './loading'
 
@@ -27,13 +27,24 @@ export const Lists = () => {
   return (
     <div>
       <p>here's some lists!</p>
-      { lists.map((list, i) => <List key={i} list={list} />) }
+      { lists.map((list) => <List key={list.id} list={list} />) }
     </div>
   )
 }
 
 const List = ({list}) => {
+  const clickHandler = async () => {
+    await fetch(`/api/list/${list.id}`, {
+      method: 'DELETE'
+    })
+
+    mutate('/api/list')
+  }
+
   return (
-    <div>{list.name}</div>
+    <div>
+      <div>{list.name}</div>
+      <button onClick={clickHandler}>X</button>
+    </div>
   )
 }

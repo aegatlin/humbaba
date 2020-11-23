@@ -2,6 +2,7 @@ import express, {Request, Response} from 'express'
 import { resolve } from 'path'
 import { migrate } from 'pigmig'
 import { db } from '../db/index.js'
+import { eor } from 'eor'
 
 await migrate(resolve("src/db/migrations"))
 
@@ -18,7 +19,15 @@ app.get('/api/list', async (req: Request, res: Response) => {
 
 app.post('/api/list/new', async (req: Request, res: Response) => {
   const { data: { list } } = req.body
-  await db.writeNewList(list.name)
+  const [e] = await eor(db.createList(list.name))
+  if (e) res.sendStatus(500)
+  res.sendStatus(200)
+})
+
+app.delete('/api/list/:id', async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id)
+  const [e] = await eor(db.deleteList(id))
+  if (e) res.sendStatus(500)
   res.sendStatus(200)
 })
 

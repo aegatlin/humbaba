@@ -19,8 +19,11 @@ export const db = {
     const { rows } = await pool.query<ListRow>('SELECT * FROM list;')
     return rows
   },
-  writeNewList: async (name) => {
+  createList: async (name: string) => {
     const res = await pool.query<ListRow>('INSERT INTO list (name) VALUES ($1)', [name])
     return res.rows
+  },
+  deleteList: async (id: number) => {
+    const res = await pool.query<ListRow>('DELETE FROM list WHERE id=$1', [id])
   }
 }
