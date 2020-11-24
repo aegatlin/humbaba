@@ -1,16 +1,16 @@
-import express, {Request, Response} from 'express'
+import express, { Request, Response } from 'express'
 import { resolve } from 'path'
 import { migrate } from 'pigmig'
 import { db } from './db.js'
 import { eor } from 'eor'
 
-await migrate(resolve("src/db/migrations"))
+await migrate(resolve('src/db/migrations'))
 
 const app = express()
 const port = 3000
 
 app.use(express.json())
-app.use(express.static("dist"))
+app.use(express.static('dist'))
 
 app.get('/api/list', async (req: Request, res: Response) => {
   const lists = await db.getAllLists()

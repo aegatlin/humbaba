@@ -7,7 +7,7 @@ const listApi = {
   delete: async (id: number) => {
     await fetch(`/api/list/${id}`, { method: 'DELETE' })
     mutate('/api/list')
-  }, 
+  },
   create: async (name: string) => {
     await fetch('/api/list/new', {
       method: 'POST',
@@ -19,7 +19,7 @@ const listApi = {
 }
 
 type List = {
-  id: number,
+  id: number
   name: string
 }
 
@@ -44,7 +44,7 @@ export const ListWrapper = () => {
 }
 
 const AllLists = () => {
-  const {lists, isLoading, isError} = useList()
+  const { lists, isLoading, isError } = useList()
 
   if (isError) return <Error />
   if (isLoading) return <Loading message="lists are loading..." />
@@ -55,7 +55,7 @@ const AllLists = () => {
   )
 }
 
-const List = ({list}) => {
+const List = ({ list }) => {
   return (
     <div>
       <div>{list.name}</div>
@@ -65,12 +65,16 @@ const List = ({list}) => {
 }
 
 const CreateList = () => {
-  const [newListName, setNewListName] = useState("")
+  const [newListName, setNewListName] = useState('')
 
   return (
     <div>
       <div>Create a list:</div>
-      <input type="test" value={newListName} onChange={(event) => setNewListName(event.target.value)} />
+      <input
+        type="test"
+        value={newListName}
+        onChange={(event) => setNewListName(event.target.value)}
+      />
       <button onClick={() => listApi.create(newListName)}>Submit</button>
     </div>
   )

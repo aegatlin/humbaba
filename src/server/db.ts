@@ -7,7 +7,7 @@ const pool = new Pool({
 })
 
 type ListRow = {
-  id: number,
+  id: number
   name: string
 }
 
@@ -20,7 +20,10 @@ export const db = {
     return rows
   },
   createList: async (name: string) => {
-    const res = await pool.query<ListRow>('INSERT INTO list (name) VALUES ($1)', [name])
+    const res = await pool.query<ListRow>(
+      'INSERT INTO list (name) VALUES ($1)',
+      [name]
+    )
     return res.rows
   },
   deleteList: async (id: number) => {

@@ -9,7 +9,8 @@
     "build:client": "parcel build src/client/index.html",
     "build:server": "tsc",
     "build": "parcel build src/client/index.html && tsc",
-    "start": "node .server/server/index.js"
+    "start": "node .server/server/index.js",
+    "format": "prettier --write src/"
   },
   "license": "ISC",
   "dependencies": {
@@ -29,6 +30,7 @@
     "@types/react-dom": "^17.0.0",
     "nodemon": "^2.0.6",
     "parcel": "^2.0.0-beta.1",
+    "prettier": "^2.2.0",
     "typescript": "^4.1.2"
   }
 }
