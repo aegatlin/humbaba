@@ -27,6 +27,6 @@ export const db = {
     return res.rows
   },
   deleteList: async (id: number) => {
-    const res = await pool.query<ListRow>('DELETE FROM list WHERE id=$1', [id])
+    await pool.query<ListRow>('DELETE FROM list WHERE id=$1', [id])
   }
 }
