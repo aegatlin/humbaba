@@ -50,8 +50,10 @@ const AllLists = () => {
   if (isLoading) return <Loading message="lists are loading..." />
   return (
     <div>
-      { lists.map((list) => <List key={list.id} list={list} />) }
-    </div> 
+      {lists.map((list) => (
+        <List key={list.id} list={list} />
+      ))}
+    </div>
   )
 }
 

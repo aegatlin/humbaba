@@ -5,7 +5,6 @@
   "scripts": {
     "dev:client": "parcel src/client/index.html",
     "dev:server": "nodemon --watch src/server --watch src/db --ext .ts --exec 'tsc && node .server/server/index.js'",
-    "dev": "npm run dev:client & npm run dev:server",
     "build:client": "parcel build src/client/index.html",
     "build:server": "tsc",
     "build": "parcel build src/client/index.html && tsc",
@@ -16,7 +15,8 @@
   "dependencies": {
     "eor": "^0.1.6",
     "express": "^4.17.1",
-    "pigmig": "^0.0.9",
+    "pg": "^8.5.1",
+    "pigmig": "^0.1.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "swr": "^0.3.9"
