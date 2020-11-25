@@ -1,49 +1,50 @@
 import React, { useState } from 'react'
 import useSWR, { mutate } from 'swr'
-import { Error } from './error'
-import { Loading } from './loading'
+import { List, Payload } from '../../types'
+import { Error } from './Error'
+import { Loading } from './Loading'
 
 const listApi = {
   delete: async (id: number) => {
-    await fetch(`/api/list/${id}`, { method: 'DELETE' })
-    mutate('/api/list')
+    await fetch(`/api/lists/${id}`, { method: 'DELETE' })
+    mutate('/api/lists')
   },
   create: async (name: string) => {
-    await fetch('/api/list/new', {
+    await fetch('/api/lists', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ data: { list: { name } } })
     })
-    mutate('/api/list')
+    mutate('/api/lists')
   }
 }
 
-type List = {
-  id: number
-  name: string
+type UseList = {
+  isError: boolean
+  isLoading: boolean
+  lists: List[]
 }
-
-const useList = () => {
-  const { data, error } = useSWR<List[]>('/api/list')
+const useList = (): UseList => {
+  const { data, error } = useSWR<Payload<List[]>>('/api/lists')
 
   if (error) console.log(error)
   return {
-    lists: data,
+    isError: error,
     isLoading: !error && !data,
-    isError: error
+    lists: data?.data
   }
 }
 
-export const ListWrapper = () => {
+export const Home = () => {
   return (
     <div>
-      <CreateList />
-      <AllLists />
+      <HomeCreateList />
+      <HomeLists />
     </div>
   )
 }
 
-const AllLists = () => {
+const HomeLists = () => {
   const { lists, isLoading, isError } = useList()
 
   if (isError) return <Error />
@@ -51,13 +52,13 @@ const AllLists = () => {
   return (
     <div>
       {lists.map((list) => (
-        <List key={list.id} list={list} />
+        <HomeList key={list.id} list={list} />
       ))}
     </div>
   )
 }
 
-const List = ({ list }) => {
+const HomeList = ({ list }) => {
   return (
     <div>
       <div>{list.name}</div>
@@ -66,7 +67,7 @@ const List = ({ list }) => {
   )
 }
 
-const CreateList = () => {
+const HomeCreateList = () => {
   const [newListName, setNewListName] = useState('')
 
   return (

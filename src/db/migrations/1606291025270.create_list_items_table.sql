@@ -1,0 +1,5 @@
+CREATE TABLE list_items (
+  id SERIAL PRIMARY KEY,
+  list_id INTEGER REFERENCES lists ON DELETE CASCADE,
+  content VARCHAR(255) NOT NULL
+);

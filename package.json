@@ -4,19 +4,22 @@
   "type": "module",
   "scripts": {
     "dev:client": "parcel src/client/index.html",
-    "dev:server": "nodemon --watch src/server --watch src/db --ext .ts --exec 'tsc && node .server/server/index.js'",
+    "dev:server": "nodemon --watch src/server --watch src/db --watch dist --ext .ts --exec 'tsc && node .server/server/index.js'",
     "build:client": "parcel build src/client/index.html",
     "build:server": "tsc",
     "build": "parcel build src/client/index.html && tsc",
     "start": "node .server/server/index.js",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "dev:db:reset": "psql -d humbaba_dev -U postgres -f src/db/reset.sql",
+    "dev:db:seed": "psql -d humbaba_dev -U postgres -f src/db/seed.sql",
+    "dev:db:reseed": "npm run dev:db:reset && npx pigmig.migrate src/db/migrations && npm run dev:db:seed"
   },
   "license": "ISC",
   "dependencies": {
     "eor": "^0.1.6",
     "express": "^4.17.1",
     "pg": "^8.5.1",
-    "pigmig": "^0.1.1",
+    "pigmig": "file:../pigmig",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "swr": "^0.3.9"

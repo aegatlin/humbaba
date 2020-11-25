@@ -3,8 +3,23 @@ export type List = {
   name: string
 }
 
+export type ListDb = {
+  id: string
+  name: string
+}
+
 export type ListItem = {
   id: number
-  content: string
   listId: number
+  content: string
+}
+
+export type ListItemDb = {
+  id: string
+  list_id: string
+  content: string
+}
+
+export type Payload<T> = {
+  data: T 
 }

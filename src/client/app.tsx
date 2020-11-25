@@ -1,12 +1,5 @@
 import React from 'react'
-import { ListWrapper } from './list'
+import { Home } from './components/Home'
 
-const App = () => {
-  return (
-    <div>
-      <ListWrapper />
-    </div>
-  )
-}
-
+const App = () => <Home />
 export default <App />

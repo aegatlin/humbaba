@@ -1,4 +1,4 @@
-CREATE TABLE list (
+CREATE TABLE lists (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255)
 );
