@@ -1,11 +1,12 @@
 {
-  "extends": "@tsconfig/recommended/tsconfig.json",
-  "files": ["src/server/index.ts"],
   "compilerOptions": {
+    "sourceMap": true,
     "module": "ESNext",
     "moduleResolution": "node",
     "noImplicitAny": false,
     "outDir": ".server",
     "target": "es2020",
-  }
+  },
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "files": ["src/server/index.ts"]
 }

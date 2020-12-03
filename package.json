@@ -6,13 +6,14 @@
     "dev:client": "parcel src/client/index.html",
     "dev:server": "nodemon --watch src/server --watch src/db --watch dist --ext .ts --exec 'tsc && node .server/server/index.js'",
     "build:client": "parcel build src/client/index.html",
-    "build:server": "tsc",
-    "build": "parcel build src/client/index.html && tsc",
+    "build:server": "rm -rf .server && tsc",
+    "build": "npm run build:client && npm run build:server",
     "start": "node .server/server/index.js",
     "format": "prettier --write src/",
     "dev:db:reset": "psql -d humbaba_dev -U postgres -f src/db/reset.sql",
     "dev:db:seed": "psql -d humbaba_dev -U postgres -f src/db/seed.sql",
-    "dev:db:reseed": "npm run dev:db:reset && npx pigmig.migrate src/db/migrations && npm run dev:db:seed"
+    "dev:db:reseed": "npm run dev:db:reset && npx pigmig.migrate src/db/migrations && npm run dev:db:seed",
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha test"
   },
   "license": "ISC",
   "dependencies": {
@@ -26,14 +27,24 @@
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",
+    "@types/chai": "^4.2.14",
     "@types/express": "^4.17.9",
+    "@types/mocha": "^8.0.4",
     "@types/node": "^14.14.9",
     "@types/pg": "^7.14.7",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
     "nodemon": "^2.0.6",
     "parcel": "^2.0.0-beta.1",
     "prettier": "^2.2.0",
+    "ts-node": "^9.0.0",
     "typescript": "^4.1.2"
+  },
+  "mocha": {
+    "extension": ["ts", "tsx"],
+    "recursive": true,
+    "require": ["ts-node/register"]
   }
 }

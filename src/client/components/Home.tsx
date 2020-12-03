@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import useSWR, { mutate } from 'swr'
+import useSWR, { mutate, useSWRInfinite } from 'swr'
 import { List, Payload } from '../../types'
 import { Error } from './Error'
 import { Loading } from './Loading'
 
-const listApi = {
+const listsApi = {
   delete: async (id: number) => {
     await fetch(`/api/lists/${id}`, { method: 'DELETE' })
     mutate('/api/lists')
@@ -19,14 +19,13 @@ const listApi = {
   }
 }
 
-type UseList = {
+type UseLists = {
   isError: boolean
   isLoading: boolean
   lists: List[]
 }
-const useList = (): UseList => {
+const useLists = (): UseLists => {
   const { data, error } = useSWR<Payload<List[]>>('/api/lists')
-
   if (error) console.log(error)
   return {
     isError: error,
@@ -36,38 +35,109 @@ const useList = (): UseList => {
 }
 
 export const Home = () => {
+  const [listId, setListId] = useState()
+
   return (
     <div>
-      <HomeCreateList />
-      <HomeLists />
+      <CreateList />
+      <ListsMetadata setListId={setListId} />
+      {listId && <CreateListItem listId={listId} />}
+      {listId && <ListDisplay listId={listId} />}
     </div>
   )
 }
 
-const HomeLists = () => {
-  const { lists, isLoading, isError } = useList()
+const useList = (id: number) => {
+  const { data, error } = useSWR<Payload<List>>(`/api/lists/${id}`)
+  if (error) console.log(error)
+  return {
+    isError: error,
+    isLoading: !error && !data,
+    list: data?.data
+  }
+}
+
+const ListDisplay = ({ listId }) => {
+  if (!listId) return null
+
+  const { isError, isLoading, list } = useList(listId)
+  if (isError) return <Error />
+  if (isLoading) return <Loading message="list is loading..." />
+  return (
+    <div style={{ border: '1px solid black' }}>
+      <div style={{ border: '1px solid black' }}>{list.name}</div>
+      <div>
+        {list.items.map((item) => (
+          <div key={item.id}>{item.content}</div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+const ListsMetadata = ({ setListId }) => {
+  const { lists, isLoading, isError } = useLists()
 
   if (isError) return <Error />
   if (isLoading) return <Loading message="lists are loading..." />
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
       {lists.map((list) => (
-        <HomeList key={list.id} list={list} />
+        <ListMetadata key={list.id} list={list} setListId={setListId} />
       ))}
     </div>
   )
 }
 
-const HomeList = ({ list }) => {
+type ListMetadataProps = {
+  list: List
+  setListId: (id: number) => void
+}
+const ListMetadata = ({ list, setListId }: ListMetadataProps) => {
   return (
-    <div>
+    <div
+      onClick={() => setListId(list.id)}
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        border: '1px solid black',
+        padding: '5px',
+        margin: '5px'
+      }}
+    >
       <div>{list.name}</div>
-      <button onClick={() => listApi.delete(list.id)}>X</button>
+      <div
+        style={{ margin: '2px', padding: '2px' }}
+        onClick={() => listsApi.delete(list.id)}
+      >
+        X
+      </div>
     </div>
   )
 }
 
-const HomeCreateList = () => {
+const listItemApi = {
+  create: async ({ content, listId }: { content: string, listId: number}) => {
+    await fetch(`/api/lists/${listId}`)
+  }
+}
+
+const CreateListItem = ({ listId }) => {
+  const [newListItemName, setNewListItemName] = useState('')
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={newListItemName}
+        onChange={(event) => setNewListItemName(event.target.value)}
+      />
+      <button onClick={() => }>Submit</button>
+    </div>
+  )
+}
+
+const CreateList = () => {
   const [newListName, setNewListName] = useState('')
 
   return (
@@ -78,7 +148,7 @@ const HomeCreateList = () => {
         value={newListName}
         onChange={(event) => setNewListName(event.target.value)}
       />
-      <button onClick={() => listApi.create(newListName)}>Submit</button>
+      <button onClick={() => listsApi.create(newListName)}>Submit</button>
     </div>
   )
 }
